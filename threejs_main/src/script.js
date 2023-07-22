@@ -4,21 +4,7 @@ import './style.css';
 
 // Сцена
 const scene = new THREE.Scene();
-
-const axesHelper = new THREE.AxesHelper(3);
-
-scene.add(axesHelper);
-
-// Объект
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({
-    color: 'purple',
-    wireframe: true,
-});
-
-const mesh = new THREE.Mesh(geometry, material);
-
-scene.add(mesh);
+const canvas = document.querySelector('.canvas');
 
 // Камера
 const sizes = {
@@ -31,10 +17,16 @@ camera.position.z = 3;
 
 scene.add(camera);
 
-const canvas = document.querySelector('.canvas');
+// Объект
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({
+    color: 'yellow',
+    wireframe: true,
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
 
 const renderer = new THREE.WebGLRenderer({ canvas });
-
 renderer.setSize(sizes.width, sizes.height);
-
 renderer.render(scene, camera);
