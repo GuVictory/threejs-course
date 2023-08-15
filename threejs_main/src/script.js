@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 import './style.css';
 
 const scene = new THREE.Scene();
@@ -24,8 +23,23 @@ controls.enableDamping = true;
 
 scene.add(camera);
 
-// Объект
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+/** Геометрии */
+// const geometry = new THREE.BoxGeometry(1, 1, 1);
+// const geometry = new THREE.CircleGeometry(1, 20, 0, Math.PI);
+// const geometry = new THREE.PlaneGeometry(1, 1, 10, 10);
+// const geometry = new THREE.ConeGeometry(1, 2, 32, 1, true, 0, Math.PI);
+// const geometry = new THREE.CylinderGeometry(0.5, 1, 2, 16, 4, true);
+// const geometry = new THREE.RingGeometry(0.5, 1, 16);
+// const geometry = new THREE.TorusGeometry(1, 0.5, 16, 100);
+// const geometry = new THREE.TorusKnotGeometry(1, 0.25, 100, 16, 1, 5);
+// const geometry = new THREE.DodecahedronGeometry(1, 0);
+// const geometry = new THREE.OctahedronGeometry(1, 0);
+// const geometry = new THREE.TetrahedronGeometry(1, 0);
+// const geometry = new THREE.IcosahedronGeometry(1, 0);
+const geometry = new THREE.SphereGeometry(1, 32, 16);
+
+/**************/
+
 const material = new THREE.MeshBasicMaterial({
     color: 'yellow',
     wireframe: true,
@@ -39,7 +53,12 @@ const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
+const clock = new THREE.Clock();
+
 const tick = () => {
+    const delta = clock.getDelta();
+    mesh.rotation.y += delta * 0.4;
+
     controls.update();
     renderer.render(scene, camera);
 
