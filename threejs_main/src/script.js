@@ -15,6 +15,7 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight,
 };
+
 const cursor = {
     x: 0,
     y: 0,
@@ -40,11 +41,23 @@ const emissive = textureLoader.load('/textures/lava/emissive.jpg');
 const height = textureLoader.load('/textures/lava/height.png');
 
 const geometry = new THREE.SphereGeometry(2, 100, 100);
-const material = new THREE.MeshStandardMaterial({});
+const material = new THREE.MeshStandardMaterial({
+    map: color,
+    roughnessMap: roughness,
+    normalMap: norm,
+    aoMap: ao,
+    emissive: emissive,
+    displacementMap: height,
+    displacementScale: 0.3
+});
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-
+gui.add(mesh.material, 'roughness').min(0).max(1);
+gui.add(mesh.material, 'aoMapIntensity').min(0).max(1);
+gui.add(mesh.material, 'displacementScale').min(0).max(1.5);
+gui.add(mesh.material.normalScale, 'x').min(0).max(5);
+gui.add(mesh.material.normalScale, 'y').min(0).max(5);
 
 
 const light = new THREE.AmbientLight(0xefefef, 1.5);
@@ -55,13 +68,13 @@ pointLight2.position.set(-3, -3, 3);
 
 scene.add(light);
 scene.add(pointLight);
-scene.add(pointLight2);
+scene.add(pointLight2)
 
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
-const clock = new THREE.Clock();
 
+const clock = new THREE.Clock();
 const tick = () => {
     stats.begin();
     const delta = clock.getDelta();
